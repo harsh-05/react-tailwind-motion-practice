@@ -3,12 +3,9 @@ export default function SVGComponent() {
   return (
     <motion.div
       className="size-40
-     flex bg-white rounded-md shadow-md hover:shadow-sm items-center justify-center"
-      animate={{
-        scale: 2,
-        transition: { duration: 2 },
-        rotate: 360
-      }}
+     flex bg-white rounded-md shadow-md  items-center justify-center"
+      whileHover={{ scale: 1.1 }}
+      whileTap={{scale: 0.95}}
     >
       <BellSVG></BellSVG>
     </motion.div>
