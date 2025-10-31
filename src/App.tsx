@@ -1,13 +1,14 @@
 import AnimatedButton from "./Components/AnimatedButton"
-import SVGComponent from "./Components/SVGComponent"
+import AnimatedCard from "./Components/AnimatedCard"
 
 function App() {
   
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-800 perspective-distant transform-3d">
+    <div className="h-screen flex items-center justify-center bg-gray-100 ">
       {/* <SVGComponent></SVGComponent> */}
-      <AnimatedButton></AnimatedButton>
+      {/* <AnimatedButton></AnimatedButton> */}
+      <AnimatedCard></AnimatedCard>
     </div>
     
   )
