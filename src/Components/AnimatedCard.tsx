@@ -9,14 +9,28 @@ export default function AnimatedCard() {
       <AnimatePresence>
         {open && (
           <motion.div
+            initial={{
+              opacity: 0,
+              scale: 0.7,
+              filter: "blur(10px)",
+            }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              filter: "blur(0px)",
+              transition: {
+                duration: 0.5,
+                ease: easeInOut,
+              }
+            }}
             exit={{
               scale: 0.7,
               opacity: 0,
-              filter: 'blur(10px)',
+              filter: "blur(10px)",
               transition: {
                 duration: 0.5,
-                ease: easeInOut
-              }
+                ease: easeInOut,
+              },
             }}
             className="bg-white rounded-xl min-h-104 h-104 w-72 font-sans shadow-[0_1px_1px_rgba(0,0,0,0.05),0_4px_6px_rgba(34,42,53,0.04),0_24px_68px_rgba(47,48,55,0.05),0_2px_3px_rgba(0,0,0,0.04)] p-4 flex flex-col "
           >
