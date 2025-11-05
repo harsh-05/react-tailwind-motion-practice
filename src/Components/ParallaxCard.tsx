@@ -94,7 +94,7 @@ const features: Features[] = [
     ),
     title: "Hero is Everything!",
     description:
-      "Hero is the one who protects himselfs and also protect others too, to become the hero one must control his/her zuban and chucchi, the great philosopher Kaleen Bhaiya once said this!!! ",
+      "Hero is the one who protects himselfs and also protect others too, to become the hero one must control his/her desires!!! ",
     imagesrc:
       image3,
   },
