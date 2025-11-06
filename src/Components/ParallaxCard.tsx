@@ -1,23 +1,59 @@
 import image2 from "../assets/Gemini_Generated_Image_nyodejnyodejnyod.png";
 import image1 from "../assets/Gemini_Generated_Image_kp6anckp6anckp6a.png";
 import image3 from "../assets/Gemini_Generated_Image_vjlbkxvjlbkxvjlb.png";
+import { useScroll, motion, useTransform, useMotionTemplate, useSpring } from "motion/react";
+import { useRef } from "react";
 export default function ParallaxCard() {
+      return (
+        <div >
+          {features.map((obj) => (
+            <Card obj={obj}></Card>
+          ))}
+        </div>
+      );
+}
+ 
 
-      return <div>
-        {features.map((obj) => (
-          <div key={ obj.title} className="flex items-center justify-center gap-12 min-h-screen max-w-4xl">
-            <div className="flex flex-col gap-5 text-white">
-              {obj.icon}
-              <h1 className="font-bold text-3xl">{obj.title  }</h1>
-              <p className="text-sm text-neutral-400">{ obj.description}</p>
-            </div>
-            <div className="size-5/12 overflow-hidden rounded-xl shrink-0">
-              <img src={obj.imagesrc} alt="images" />
-            </div>
-          </div>
-        ))}
-      </div>
- }
+
+function Card({ obj }: { obj: Features }) { 
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const translateContent = useSpring(useTransform(scrollYProgress, [0, 1], [200, -200]), {
+    stiffness: 100,
+    damping: 20,
+    mass: 3
+  });
+  const opacityContent = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
+  const blurContent = useTransform(scrollYProgress, [0, 0.5, 1], [4, 0, 8]);
+  const scaleContent = useTransform(scrollYProgress, [0.6, 1], [1, 0.8])
+  return (
+    <div
+      ref={ref}
+      key={obj.title}
+      className="flex items-center justify-center gap-12 min-h-screen max-w-4xl"
+    >
+      <motion.div
+        style={{filter: useMotionTemplate`blur(${blurContent}px)`, scale: scaleContent}}
+        className="flex flex-col gap-5 text-white">
+        {obj.icon}
+        <h1 className="font-bold text-3xl">{obj.title}</h1>
+        <p className="text-sm text-neutral-400">{obj.description}</p>
+      </motion.div>
+
+      <motion.img
+        style={{ y: translateContent, opacity: opacityContent }}
+        src={obj.imagesrc}
+        alt="images"
+        className="size-5/12 overflow-hidden rounded-xl shrink-0"
+      />
+    </div>
+  );
+}
+
 
 type Features = {
   icon: React.ReactNode;
