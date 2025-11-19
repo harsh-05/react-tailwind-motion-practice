@@ -1,19 +1,54 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function LayoutExample() {
-  const [card, setCard] = useState<CardType | null>(CardData[0]);
+  const [card, setCard] = useState<CardType | null>();
+  const ref = useRef<HTMLDivElement| null>(null);
+  useEffect(() => {
+    function closediv(event: MouseEvent) {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setCard(null);
+      }
+    }
+
+    document.addEventListener('mousedown', closediv)
+   
+  }, [])
+  
   return (
     <div className="relative w-full flex justify-center">
-      {card && <div className="fixed w-screen z-20 bg-gray-100/50 h-screen flex justify-center">
-        <div className="w-2/7 my-4 rounded-lg bg-gray-50 shadow-lg">
-          <div className=" size-96 overflow-hidden rounded-lg m-2">
-          <img src={card.imageFreeUrl} alt={card.singerName} />
+      {card && (
+        <div className="fixed w-screen z-20 bg-gray-100/50 h-screen flex justify-center backdrop-blur-xs">
+          <div
+            ref={ref}
+            className="w-[24rem] my-4 rounded-xl bg-gray-50 shadow-lg "
+          >
+            <div className="m-3">
+              <div className=" w-full aspect-square overflow-hidden rounded-xl ">
+                <img
+                  src={card.imageFreeUrl}
+                  alt={card.singerName}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="flex justify-between items-center my-2 ">
+                <div>
+                  <p className="font-bold text-neutral-700">{card.songTitle}</p>
+                  <p className="font-light text-neutral-500">
+                    {card.singerName}
+                  </p>
+                </div>
+                <button className="bg-green-400 rounded-xl w-16 h-8 ">
+                  Play
+                </button>
+              </div>
+
+              <div className="mt-10">{card.briefDetail}</div>
+            </div>
           </div>
-          </div>
-      </div>}
-      
-      
-      <div className="flex flex-col justify-center gap-10  w-1/2 bg-red-400">
+        </div>
+      )}
+
+      <div className="flex flex-col justify-center gap-10  w-1/2 ">
         {CardData.map((data: CardType) => (
           <button
             onClick={() => setCard(data)}
@@ -50,7 +85,7 @@ const CardData: CardType[] = [
     songTitle: "Tum Hi Ho",
     singerName: "Arijit Singh",
     briefDetail:
-      "Arijit Singh is a leading Indian playback singer known for his soulful voice and major hits in Bollywood. :contentReference[oaicite:0]{index=0}",
+      "Arijit Singh is a leading Indian playback singer known for his soulful voice and major hits in Bollywood.",
     imageFreeUrl:
       "https://i.scdn.co/image/ab6761610000e5eb5ba2d75eb08a2d672f9b69b7",
   },
