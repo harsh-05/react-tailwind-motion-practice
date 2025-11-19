@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-
+import {motion} from 'motion/react'
 export default function LayoutExample() {
   const [card, setCard] = useState<CardType | null>();
   const ref = useRef<HTMLDivElement| null>(null);
@@ -18,25 +18,31 @@ export default function LayoutExample() {
     <div className="relative w-full flex justify-center">
       {card && (
         <div className="fixed w-screen z-20 bg-gray-100/50 h-screen flex justify-center backdrop-blur-xs">
-          <div
+          <motion.div
+            layoutId={`layout-${card.songTitle}`}
             ref={ref}
             className="w-[24rem] my-4 rounded-xl bg-gray-50 shadow-lg "
           >
             <div className="m-3">
-              <div className=" w-full aspect-square overflow-hidden rounded-xl ">
+              <motion.div
+                layoutId={`layoutImage-${card.songTitle}`}
+                className=" w-full aspect-square overflow-hidden rounded-xl "
+              >
                 <img
                   src={card.imageFreeUrl}
                   alt={card.singerName}
                   className="w-full h-full object-cover"
                 />
-              </div>
+              </motion.div>
               <div className="flex justify-between items-center my-2 ">
-                <div>
+                <motion.div
+                  layoutId={`layoutData-${card.songTitle}`}
+                >
                   <p className="font-bold text-neutral-700">{card.songTitle}</p>
                   <p className="font-light text-neutral-500">
                     {card.singerName}
                   </p>
-                </div>
+                </motion.div>
                 <button className="bg-green-400 rounded-xl w-16 h-8 ">
                   Play
                 </button>
@@ -44,29 +50,36 @@ export default function LayoutExample() {
 
               <div className="mt-10">{card.briefDetail}</div>
             </div>
-          </div>
+          </motion.div>
         </div>
       )}
 
       <div className="flex flex-col justify-center gap-10  w-1/2 ">
         {CardData.map((data: CardType) => (
-          <button
+          <motion.button
+            layoutId={`layout-${data.songTitle}`}
             onClick={() => setCard(data)}
             className="flex justify-between items-center bg-white p-4 hover:cursor-pointer rounded-md shadow-md "
           >
             <div className="">
               <div className="flex items-center justify-center gap-3">
-                <div className=" overflow-hidden size-12 rounded-md">
+                <motion.div
+                  layoutId={`layoutImage-${data.songTitle}`}
+                  className=" overflow-hidden size-12 rounded-md"
+                >
                   <img src={data.imageFreeUrl} alt="image" />
-                </div>
-                <div className="text-left">
+                </motion.div>
+                <motion.div
+                  layoutId={`layoutData-${data.songTitle}`}
+                  className="text-left"
+                >
                   <p className="font-bold text-sm">{data.songTitle}</p>
                   <p className="text-xs text-neutral-400">{data.singerName}</p>
-                </div>
+                </motion.div>
               </div>
             </div>
             <button className="bg-green-400 rounded-xl w-16 h-8 ">Play</button>
-          </button>
+          </motion.button>
         ))}
       </div>
     </div>
